@@ -32,4 +32,16 @@ class DbOperation
         return $temp;
 
     }
+
+    public function getStockNames(){
+        $stmt = $this->con->prepare("SELECT Name FROM inwentaryzacje");
+        $stmt->execute();
+        $stmt->bind_result($name);
+        $names = array();
+        while($stmt->fetch()){
+            array_push($names, $name);
+        }
+        return $names;
+
+    }
 }

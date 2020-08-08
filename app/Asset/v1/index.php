@@ -20,6 +20,11 @@ if(isset($_GET['op'])){
             }
             break;
 
+        case 'getStockNames':
+                $db = new DbOperation();
+                $response = $db->getStockNames();
+            break;
+
         default:
             $response['error'] = true;
             $response['message'] = 'No operation to perform';
