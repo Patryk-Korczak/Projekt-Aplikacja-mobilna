@@ -26,6 +26,10 @@ class DbOperation
         $temp['Data_Utworzenia'] = $Data_Utworzenia;
         $temp['Data_Urodzenia'] = $Data_Urodzenia;
         $temp['Wiek'] = $Wiek;
+        if(is_null($UserLogin)){
+            return "Error2";
+        }
         return $temp;
+
     }
 }

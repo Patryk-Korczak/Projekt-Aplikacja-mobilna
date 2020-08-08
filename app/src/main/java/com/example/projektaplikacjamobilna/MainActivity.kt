@@ -8,6 +8,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import java.io.Serializable
 import java.net.URL
 
 
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity() {
             val loginTask = GetUserData(textLogin.text.toString())
             loginTask.execute().get()
             val apiResponse = loginTask.answer
-            if(apiResponse == "Error"){
+            if(apiResponse == "\"Error2\""){
                 val alertDialog =
                     AlertDialog.Builder(this@MainActivity).create()
                 alertDialog.setTitle("Uwaga!")
-                alertDialog.setMessage("Błąd podczas łączenia z bazą danych!")
+                alertDialog.setMessage("Użytkownik o podanym loginie nie istnieje!")
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEUTRAL, "OK"
                 ) { dialog, _ -> dialog.dismiss() }
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 if(textLogin.text.toString() == user.UserLogin &&
                     textPassword.text.toString() == user.UserPassword) {
                     val intent = Intent(this, MainScreen::class.java)
+                    intent.putExtra("userData", user as Serializable)
                     startActivity(intent)
                 }else{
                     val alertDialog =
@@ -71,9 +73,6 @@ class GetUserData(val login : String) : AsyncTask<Void, Void, String>() {
 
     override fun doInBackground(vararg params: Void?): String? {
         answer = URL(req).readText()
-        if(answer == ""){
-            answer = "Error"
-        }
         return answer
     }
 }

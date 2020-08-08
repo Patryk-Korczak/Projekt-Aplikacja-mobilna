@@ -1,5 +1,7 @@
 package com.example.projektaplikacjamobilna
 
+import java.io.Serializable
+
 data class User(
     var U_Id: Int,
     var UserLogin: String,
@@ -10,4 +12,4 @@ data class User(
     var Data_Utworzenia: String,
     var Data_Urodzenia: String,
     var Wiek: Int
-)
+) : Serializable
