@@ -9,13 +9,13 @@ class MainScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
+        supportActionBar?.hide()
 
 
         val userInfo: User = intent.getSerializableExtra("userData") as User
         val alertDialog =
             AlertDialog.Builder(this@MainScreen).create()
         alertDialog.setTitle("Zalogowano pomyślnie!")
-        alertDialog.setMessage("Witaj " + userInfo.Imie + "!")
         alertDialog.setButton(
             AlertDialog.BUTTON_NEUTRAL, "OK"
         ) { dialog, _ -> dialog.dismiss() }
