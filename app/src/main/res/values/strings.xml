@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Projekt Aplikacja mobilna</string>
+    <string name="zaloguj">ZALOGUJ</string>
+    <string name="login">Login</string>
+    <string name="asset">ASSET</string>
+    <string name="haslo">Hasło</string>
+    <string name="dostepne_inwentaryzacje">Dostępne inwentaryzacje:</string>
+    <string name="rozpocznij_inwentaryzacje">ROZPOCZNIJ INWENTARYZACJĘ</string>
 </resources>

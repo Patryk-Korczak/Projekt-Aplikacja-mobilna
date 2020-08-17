@@ -3,7 +3,6 @@ package com.example.projektaplikacjamobilna
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -11,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import java.io.Serializable
 import java.net.URL
-
-
-// LOGOWANIE
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val textLogin = findViewById<EditText>(R.id.textLogin)
         val textPassword = findViewById<EditText>(R.id.textPassword)
         var user : User
-        var gson = Gson()
+        val gson = Gson()
         buttonLogin.setOnClickListener {
             val loginTask = GetUserData(textLogin.text.toString())
             loginTask.execute().get()
@@ -70,8 +66,8 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-class GetUserData(val login : String) : AsyncTask<Void, Void, String>() {
-    val req = EndPoints.URL_GET_USER + login
+class GetUserData(login : String) : AsyncTask<Void, Void, String>() {
+    private val req = EndPoints.URL_GET_USER + login
     lateinit var answer : String
 
     override fun doInBackground(vararg params: Void?): String? {

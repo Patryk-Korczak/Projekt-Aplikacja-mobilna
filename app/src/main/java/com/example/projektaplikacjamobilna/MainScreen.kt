@@ -22,7 +22,7 @@ class MainScreen : AppCompatActivity() {
 
         val receiveNamesTask = GetStockNames()
         receiveNamesTask.execute().get()
-        var apiAnswer = receiveNamesTask.answer
+        val apiAnswer = receiveNamesTask.answer
         val gson = GsonBuilder().create()
         val stockList = gson.fromJson<ArrayList<String>>(apiAnswer, object :
             TypeToken<ArrayList<String>>(){}.type)
@@ -48,8 +48,8 @@ class MainScreen : AppCompatActivity() {
     }
 }
 
-class GetStockNames() : AsyncTask<Void, Void, String>() {
-    val req = EndPoints.URL_GET_STOCK_NAMES
+class GetStockNames : AsyncTask<Void, Void, String>() {
+    private val req = EndPoints.URL_GET_STOCK_NAMES
     lateinit var answer : String
 
     override fun doInBackground(vararg params: Void?): String? {
