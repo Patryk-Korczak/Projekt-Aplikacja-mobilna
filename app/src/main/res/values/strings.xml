@@ -6,4 +6,11 @@
     <string name="haslo">Hasło</string>
     <string name="dostepne_inwentaryzacje">Dostępne inwentaryzacje:</string>
     <string name="rozpocznij_inwentaryzacje">ROZPOCZNIJ INWENTARYZACJĘ</string>
+    <string name="inwentaryzacja">INWENTARYZACJA</string>
+    <string name="tak">TAK</string>
+    <string name="czy_przedmiot_znajduje_si_w_podanej_lokalizacji">Czy przedmiot znajduje się w podanej lokalizacji?</string>
+    <string name="nie">NIE</string>
+    <string name="lokalizacja">LOKALIZACJA</string>
+    <string name="nazwa_przedmiotu">NAZWA PRZEDMIOTU</string>
+    <string name="zdj_cie_przedmiotu">zdjęcie przedmiotu</string>
 </resources>

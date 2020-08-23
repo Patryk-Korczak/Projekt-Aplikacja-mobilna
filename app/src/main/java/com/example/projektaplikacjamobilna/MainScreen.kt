@@ -1,15 +1,18 @@
 package com.example.projektaplikacjamobilna
 
+import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main_screen.*
+import java.io.Serializable
 import java.net.URL
 
 class MainScreen : AppCompatActivity() {
@@ -45,6 +48,18 @@ class MainScreen : AppCompatActivity() {
         val myAdapter = ArrayAdapter<String>(this@MainScreen, android.R.layout.simple_list_item_1, stockList)
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = myAdapter
+
+
+        val buttonStart = findViewById<Button>(R.id.button2)
+
+        buttonStart.setOnClickListener {
+            val tableName = mySpinner.selectedItem.toString()
+            val intent = Intent(this, InventoryActivity::class.java)
+            intent.putExtra("tableName", tableName)
+            intent.putExtra("userData", userInfo as Serializable)
+            startActivity(intent)
+        }
+
     }
 }
 

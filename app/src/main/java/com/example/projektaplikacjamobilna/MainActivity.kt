@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
         val textLogin = findViewById<EditText>(R.id.textLogin)
         val textPassword = findViewById<EditText>(R.id.textPassword)
-        var user : User
+        var userInfo : User
         val gson = Gson()
         buttonLogin.setOnClickListener {
             val loginTask = GetUserData(textLogin.text.toString())
@@ -40,11 +40,11 @@ class MainActivity : AppCompatActivity() {
                 textLogin.setText("")
                 textPassword.setText("")
             }else{
-                user = gson.fromJson(apiResponse, User::class.java)
-                if(textLogin.text.toString() == user.UserLogin &&
-                    textPassword.text.toString() == user.UserPassword) {
+                userInfo = gson.fromJson(apiResponse, User::class.java)
+                if(textLogin.text.toString() == userInfo.UserLogin &&
+                    textPassword.text.toString() == userInfo.UserPassword) {
                     val intent = Intent(this, MainScreen::class.java)
-                    intent.putExtra("userData", user as Serializable)
+                    intent.putExtra("userData", userInfo as Serializable)
                     startActivity(intent)
                 }else{
                     val alertDialog =
