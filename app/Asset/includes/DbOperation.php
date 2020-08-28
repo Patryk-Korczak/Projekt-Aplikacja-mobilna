@@ -44,4 +44,32 @@ class DbOperation
         return $names;
 
     }
+
+    public function getItems(){
+        $stmt = $this->con->prepare("SELECT Item_ID, Item_Name, Invoice_Number, Location_ID, Location_Name,
+            Group_ID, NetValue, GrossValue, Room_ID, Room_Name, Qr_Code FROM items");
+        $stmt->execute();
+        $stmt -> bind_result($Item_ID, $Item_Name, $Invoice_Number, $Location_ID, $Location_Name,
+            $Group_ID, $NetValue, $GrossValue, $Room_ID, $Room_Name, $Qr_Code);
+        $items = array();
+        while($stmt -> fetch()){
+            $temp = array();
+            $temp['Item_ID'] = $Item_ID;
+            $temp['Item_Name'] = $Item_Name;
+            $temp['Invoice_Number'] = $Invoice_Number;
+            $temp['Location_ID'] = $Location_ID;
+            $temp['Location_Name'] = $Location_Name;
+            $temp['Group_ID'] = $Group_ID;
+            $temp['NetValue'] = $NetValue;
+            $temp['GrossValue'] = $GrossValue;
+            $temp['Room_ID'] = $Room_ID;
+            $temp['Room_Name'] = $Room_Name;
+            //$temp['Item_Image'] = $Item_Image;
+            $temp['Qr_Code'] = $Qr_Code;
+
+            array_push($items, $temp);
+        }
+
+        return $items;
+    }
 }

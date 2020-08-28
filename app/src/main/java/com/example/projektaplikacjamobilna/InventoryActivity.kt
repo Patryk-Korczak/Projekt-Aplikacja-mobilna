@@ -1,11 +1,15 @@
 package com.example.projektaplikacjamobilna
 
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import java.net.URL
 
 class InventoryActivity : AppCompatActivity() {
 
@@ -20,10 +24,16 @@ class InventoryActivity : AppCompatActivity() {
             AlertDialog.Builder(this@InventoryActivity).create()
         alertDialog.setTitle("Uwaga!")
         alertDialog.setMessage("Trwa przygotowywanie inwentaryzacji...")
-        alertDialog.setButton(
-            AlertDialog.BUTTON_NEUTRAL, "OK"
-        ) { dialog, _ -> dialog.dismiss() }
         alertDialog.show()
+
+        val receiveItemsTask = GetItems()
+        receiveItemsTask.execute().get()
+        val apiAnswer = receiveItemsTask.answer
+
+        val gson = GsonBuilder().create()
+        val itemList = gson.fromJson<ArrayList<Item>>(apiAnswer, object : TypeToken<ArrayList<Item>>(){}.type)
+
+        alertDialog.hide()
 
         var currentID = 0
 
@@ -36,6 +46,9 @@ class InventoryActivity : AppCompatActivity() {
         val buttonNo = findViewById<Button>(R.id.button3)
         val imageItem = findViewById<ImageView>(R.id.imageView2)
         textInventory.text = tableName
+        textName.text = itemList[currentID].Item_Name
+        val temp = itemList[currentID].Location_Name + " : " + itemList[currentID].Room_Name
+        textLocation.text = temp
 
         buttonYes.setOnClickListener{
 
@@ -44,5 +57,15 @@ class InventoryActivity : AppCompatActivity() {
         buttonNo.setOnClickListener{
 
         }
+    }
+}
+
+class GetItems : AsyncTask<Void, Void, String>() {
+    private val req = EndPoints.URL_GET_ITEMS
+    lateinit var answer : String
+
+    override fun doInBackground(vararg params: Void?): String? {
+        answer = URL(req).readText()
+        return answer
     }
 }

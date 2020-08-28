@@ -21,8 +21,13 @@ if(isset($_GET['op'])){
             break;
 
         case 'getStockNames':
-                $db = new DbOperation();
-                $response = $db->getStockNames();
+            $db = new DbOperation();
+            $response = $db->getStockNames();
+            break;
+
+        case 'getItems':
+            $db = new DbOperation();
+            $response = $db->getItems();
             break;
 
         default:
