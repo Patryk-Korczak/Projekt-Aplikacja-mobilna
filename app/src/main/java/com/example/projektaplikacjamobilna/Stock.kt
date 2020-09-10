@@ -14,6 +14,6 @@ class Stock {
 
 
     override fun toString(): String {
-        return Stock_Name + ":" + Location_ID
+        return Stock_Name + " - Magazyn " + Location_ID
     }
 }

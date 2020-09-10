@@ -60,9 +60,8 @@ class MainScreen : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val intent = Intent(this, RoomSelectActivity::class.java)
-        startActivity(intent)
-        if(resultCode == 0){
+
+        if(requestCode == 0 && resultCode == 0){
             val receiveItemsTask = GetItems(DataHolder.selectedStock.Stock_ID)
             receiveItemsTask.execute().get()
             val gson = GsonBuilder().create()
@@ -92,7 +91,7 @@ class MainScreen : AppCompatActivity() {
         /*
         Tutaj powinien znajdować się kod odpowiadający za odczytanie kodu QR z bloba.
          */
-        return "1 Warszawa ?w 98-275111"
+        return "1 Warszawa ?w 98-275"
     }
 
 }

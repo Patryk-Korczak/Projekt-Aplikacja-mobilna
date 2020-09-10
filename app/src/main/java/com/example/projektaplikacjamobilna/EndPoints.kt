@@ -5,5 +5,6 @@ object EndPoints {
     const val URL_GET_USER = URL_ROOT + "getUser&login="
     const val URL_GET_STOCK_NAMES = URL_ROOT +"getStockNames"
     const val URL_GET_ITEMS = URL_ROOT +"getItems&Stock_ID="
+    const val URL_GET_ROOMS = URL_ROOT +"getRooms&Location_ID="
 
 }
