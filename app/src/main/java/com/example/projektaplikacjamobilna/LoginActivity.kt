@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity() {
                 textPassword.setText("")
             }else{
                 userInfo = gson.fromJson(apiResponse, User::class.java)
+                DataHolder.myUser = userInfo
                 if(textLogin.text.toString() == userInfo.UserLogin &&
                     textPassword.text.toString() == userInfo.UserPassword) {
                     val intent = Intent(this, MainScreen::class.java)
-                    intent.putExtra("userData", userInfo as Serializable)
                     startActivity(intent)
                 }else{
                     val alertDialog =
