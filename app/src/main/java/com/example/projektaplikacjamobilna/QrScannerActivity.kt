@@ -10,10 +10,11 @@ class QrScannerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scanner)
+        supportActionBar?.hide()
         val intent = intent
 
         var expectedValue = intent.getStringExtra("expectedValue")
-        var readValue = "1 Warszawa ?w 98-275"
+        var readValue = "test"
 
         /*
         Tutaj musi znajdować się kod odpowiedzialny za czytanie kodu QR z kamery.

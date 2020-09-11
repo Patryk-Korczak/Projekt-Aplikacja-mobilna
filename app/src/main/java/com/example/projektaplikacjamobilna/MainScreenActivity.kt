@@ -36,7 +36,7 @@ class MainScreen : AppCompatActivity() {
 
         //UI
         val welcomeMessage = findViewById<TextView>(R.id.message1)
-        val welcomeText = "Witaj ${DataHolder.myUser.Imie}!\n Poziom uprawnień: ${DataHolder.myUser.User_Type}"
+        val welcomeText = "Witaj ${DataHolder.myUser.Imie}!\nPoziom uprawnień: ${DataHolder.myUser.User_Type}"
         welcomeMessage.text = welcomeText
 
         val mySpinner = findViewById<Spinner>(R.id.spinner)
@@ -79,8 +79,6 @@ class MainScreen : AppCompatActivity() {
             ) { dialog, _ -> dialog.dismiss() }
             alertDialog.show()
         }
-
-
     }
 
     public fun getSelectedStock(v: Spinner): Stock {
@@ -91,7 +89,7 @@ class MainScreen : AppCompatActivity() {
         /*
         Tutaj powinien znajdować się kod odpowiadający za odczytanie kodu QR z bloba.
          */
-        return "1 Warszawa ?w 98-275"
+        return "test"
     }
 
 }

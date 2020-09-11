@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".RoomSelectActivity"></activity>
+        <activity android:name=".InsideRoomActivity"></activity>
+        <activity android:name=".RoomSelectActivity" />
         <activity android:name=".QrScannerActivity" />
         <activity android:name=".MainScreen" />
         <activity android:name=".MainActivity">
