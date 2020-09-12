@@ -3,7 +3,6 @@
 class DbConnect
 {
     //Variable to store database link
-    private $con;
 
     //Class constructor
     function __construct()
@@ -18,7 +17,7 @@ class DbConnect
         include_once dirname(__FILE__) . '/Constants.php';
 
         //connecting to mysql database
-        $this->con = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+        $con = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
         //Checking if any error occured while connecting
         if (mysqli_connect_errno()) {
@@ -27,7 +26,7 @@ class DbConnect
         }
 
         //finally returning the connection link
-        return $this->con;
+        return $con;
     }
 
 }

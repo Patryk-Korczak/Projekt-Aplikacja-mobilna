@@ -26,9 +26,31 @@ if(isset($_GET['op'])){
             break;
 
         case 'getItems':
-            $db = new DbOperation();
-            $response = $db->getItems();
+            if(isset($_GET['Stock_ID'])) {
+                $db = new DbOperation();
+                $response = $db->getItems($_GET['Stock_ID']);
+            }
             break;
+
+        case 'getRoomItems':
+            if(isset($_GET['Stock_ID']) & isset($_GET['Room_ID'])) {
+                $db = new DbOperation();
+                $response = $db->getRoomItems($_GET['Stock_ID'], $_GET['Room_ID']);
+            }
+            break;
+
+        case 'getLocations':
+            $db = new DbOperation();
+            $response = $db->getLocations();
+            break;
+
+        case 'getRooms':
+            if(isset($_GET['Location_ID'])) {
+                $db = new DbOperation();
+                $response = $db->getRooms($_GET['Location_ID']);
+            }
+            break;
+
 
         default:
             $response['error'] = true;
