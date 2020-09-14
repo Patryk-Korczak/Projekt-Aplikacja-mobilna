@@ -10,5 +10,4 @@ object EndPoints {
     const val URL_UPDATE_ITEM = URL_ROOT + "updateItem&Row_ID="
     const val URL_UPDATE_STOCK = URL_ROOT + "updateStock&Stock_ID="
     const val URL_GET_LOCATIONS = URL_ROOT + "getLocations"
-
 }

@@ -19,6 +19,9 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import kotlinx.android.synthetic.main.activity_main_screen.*
 import java.io.Serializable
 import java.net.URL
@@ -85,7 +88,7 @@ class MainScreen : AppCompatActivity() {
             val alertDialog =
                 AlertDialog.Builder(this@MainScreen).create()
             alertDialog.setTitle("Uwaga!")
-            alertDialog.setMessage("Użytkownik o podanym loginie nie istnieje!")
+            alertDialog.setMessage("Zeskanowano niepoprawny kod QR, spróbuj ponownie!")
             alertDialog.setButton(
                 AlertDialog.BUTTON_NEUTRAL, "OK"
             ) { dialog, _ -> dialog.dismiss() }
@@ -102,17 +105,26 @@ class MainScreen : AppCompatActivity() {
         var decodedString = Base64.decode(filtered[0].QrCode, Base64.DEFAULT)
         var createdImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
-        val detector = BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build()
+        val detectorOptions = BarcodeScannerOptions.Builder().setBarcodeFormats(com.google.mlkit.vision.barcode.Barcode.FORMAT_QR_CODE).build()
+        val qrReader = BarcodeScanning.getClient(detectorOptions)
 
-        val frame = Frame.Builder().setBitmap(createdImage).build()
-        val barcodes = detector.detect(frame)[0].rawValue
-        var valueFromDatabase = ""
-        return if(barcodes.isNotEmpty()) {
-            valueFromDatabase = barcodes
-            valueFromDatabase
-        }else{
+        var input = InputImage.fromBitmap(createdImage, 0)
+
+        var valueFromDatabase = qrReader.process(input)
+        while(!valueFromDatabase.isSuccessful) {
+
+            }
+
+        val foundValue = valueFromDatabase.result?.get(0)?.rawValue
+
+
+        return if(foundValue.isNullOrBlank()){
             "ERROR"
+        }else{
+            foundValue
         }
+
+
 
     }
 

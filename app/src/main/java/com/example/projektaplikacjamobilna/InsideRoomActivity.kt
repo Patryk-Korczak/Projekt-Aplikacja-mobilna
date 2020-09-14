@@ -12,6 +12,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import java.net.URL
 
 class InsideRoomActivity : AppCompatActivity() {
@@ -132,10 +135,27 @@ class InsideRoomActivity : AppCompatActivity() {
     }
 
     private fun getItemQrCode(v: Item): String{
-        /*
-        Tutaj powinien znajdować się kod odpowiadający za odczytanie kodu QR z bloba.
-         */
-        return "test"
+        var decodedString = Base64.decode(v.Qr_Code_Item, Base64.DEFAULT)
+        var createdImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+
+        val detectorOptions = BarcodeScannerOptions.Builder().setBarcodeFormats(com.google.mlkit.vision.barcode.Barcode.FORMAT_QR_CODE).build()
+        val qrReader = BarcodeScanning.getClient(detectorOptions)
+
+        var input = InputImage.fromBitmap(createdImage, 0)
+
+        var valueFromDatabase = qrReader.process(input)
+        while(!valueFromDatabase.isSuccessful) {
+
+        }
+
+        val foundValue = valueFromDatabase.result?.get(0)?.rawValue
+
+
+        return if(foundValue.isNullOrBlank()){
+            "ERROR"
+        }else{
+            foundValue
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

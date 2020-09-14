@@ -1,5 +1,7 @@
 package com.example.projektaplikacjamobilna
 
+import android.net.Uri
+
 object DataHolder{
     lateinit var myUser: User
     lateinit var myStocks: ArrayList<Stock>
@@ -11,4 +13,5 @@ object DataHolder{
     lateinit var tempItems: ArrayList<Item>
     var currentID = 0
     var itemsChecked = 0
+    lateinit var imgURl:Uri
 }

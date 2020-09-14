@@ -14,6 +14,7 @@ class Stock {
 
 
     override fun toString(): String {
-        return Stock_Name + " - Magazyn " + Location_ID
+        var filtered = DataHolder.myLocations.filter { c -> c.Location_ID == this.Location_ID }
+        return Stock_Name + " - " + filtered[0].Location_Name
     }
 }

@@ -3,15 +3,20 @@
 package com.example.projektaplikacjamobilna
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import java.net.URL
 
 class RoomSelectActivity : AppCompatActivity() {
@@ -108,7 +113,27 @@ class RoomSelectActivity : AppCompatActivity() {
 
     public fun getRoomQrCode(v: Room): String{
 
-        return "test"
+        var decodedString = Base64.decode(v.QrCode, Base64.DEFAULT)
+        var createdImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+
+        val detectorOptions = BarcodeScannerOptions.Builder().setBarcodeFormats(com.google.mlkit.vision.barcode.Barcode.FORMAT_QR_CODE).build()
+        val qrReader = BarcodeScanning.getClient(detectorOptions)
+
+        var input = InputImage.fromBitmap(createdImage, 0)
+
+        var valueFromDatabase = qrReader.process(input)
+        while(!valueFromDatabase.isSuccessful) {
+
+        }
+
+        val foundValue = valueFromDatabase.result?.get(0)?.rawValue
+
+
+        return if(foundValue.isNullOrBlank()){
+            "ERROR"
+        }else{
+            foundValue
+        }
     }
 
 }
