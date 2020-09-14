@@ -51,7 +51,22 @@ if(isset($_GET['op'])){
             }
             break;
 
-
+		case 'updateItem':
+			if(isset($_GET['Row_ID']) & isset($_GET['Real_Amount']) & isset($_GET['IsChecked']) & isset($_GET['Note'])) {
+				$db = new DbOperation();
+				$db->updateItem($_GET['Row_ID'], $_GET['Real_Amount'], $_GET['IsChecked'], $_GET['Note']);
+				$response = 'Done';
+			}
+	    break;
+		
+		case 'updateStock':
+			if(isset($_GET['Stock_ID']) & isset($_GET['User']) &isset($_GET['Is_Ended']))	{
+				$db = new DbOperation();
+				$db->updateStock($_GET['Stock_ID'], $_GET['User'], $_GET['Is_Ended']);
+				$response = 'Done';
+			}
+		break;
+			
         default:
             $response['error'] = true;
             $response['message'] = 'No operation to perform';

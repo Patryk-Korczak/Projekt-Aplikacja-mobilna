@@ -34,7 +34,7 @@ class DbOperation
     }
 
     public function getStockNames(){
-        $stmt = $this->con->prepare("SELECT Stock_ID, User, Stock_Name, Location_ID, Creation_Date, Date_Load_Inv, Is_Ended, Note FROM stocktaking");
+        $stmt = $this->con->prepare("SELECT Stock_ID, User, Stock_Name, Location_ID, Creation_Date, Date_Load_Inv, Is_Ended, Note FROM stocktaking WHERE Is_Ended = '0' ");
         $stmt -> execute();
         $stmt -> bind_result($Stock_ID, $User, $Stock_Name, $Location_ID, $Creation_Date, $Date_Load_Inv, $Is_Ended, $Note);
         $names = array();
@@ -56,7 +56,7 @@ class DbOperation
     }
 
     public function getItems($Stock_ID){
-        $stmt = $this->con->prepare("SELECT * FROM stocktaking_items WHERE Stock_ID = '$Stock_ID' ");
+        $stmt = $this->con->prepare("SELECT * FROM stocktaking_items WHERE Stock_ID = '$Stock_ID' AND IsChecked = '0' ");
         $stmt -> execute();
         $stmt -> bind_result($Row_ID, $Item_ID, $Item_Name, $Item_Image, $Qr_Code_Item,
             $Room_ID, $Room_Name, $Sys_Amount, $Real_Amount, $IsChecked, $Note, $Stock_ID);
@@ -148,4 +148,20 @@ class DbOperation
 
         return $rooms;
     }
+	
+	public function updateItem($Row_ID, $Real_Amount, $IsChecked, $Note){
+		$stmt = $this->con->prepare("UPDATE stocktaking_items SET Real_Amount = ?, IsChecked = ?, Note = ? WHERE Row_ID = ?");
+		$stmt->bind_param("iisi", $Real_Amount, $IsChecked, $Note, $Row_ID);
+		$stmt -> execute();
+		
+		return "Done";
+	}
+	
+	public function updateStock($Stock_ID, $User, $Is_Ended){
+		$stmt = $this->con->prepare("UPDATE stocktaking SET User = ?, Is_Ended = ? WHERE Stock_ID = ?");
+		$stmt->bind_param("sii", $User, $Is_Ended, $Stock_ID);
+		$stmt -> execute();
+		
+		return "Done";
+	}
 }
