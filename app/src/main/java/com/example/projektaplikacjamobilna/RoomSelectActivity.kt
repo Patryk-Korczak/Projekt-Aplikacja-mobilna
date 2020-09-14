@@ -1,3 +1,5 @@
+
+
 package com.example.projektaplikacjamobilna
 
 import android.content.Intent
@@ -10,7 +12,6 @@ import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlinx.android.synthetic.main.activity_room_select.*
 import java.net.URL
 
 class RoomSelectActivity : AppCompatActivity() {
@@ -36,9 +37,33 @@ class RoomSelectActivity : AppCompatActivity() {
         val enterRoomButton = findViewById<Button>(R.id.enterRoomButton)
         enterRoomButton.setOnClickListener {
             DataHolder.selectedRoom = getSelectedRoom(roomSpinner)
+
             val intent = Intent(this, QrScannerActivity::class.java)
             intent.putExtra("expectedValue", getRoomQrCode(getSelectedRoom(roomSpinner)))
             startActivityForResult(intent, 0)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val intent = Intent(this, MainScreen::class.java)
+        if(DataHolder.itemsChecked == DataHolder.myItems.size){
+            val alertDialog =
+                AlertDialog.Builder(this@RoomSelectActivity).create()
+            alertDialog.setTitle("Kończenie inwentayzacji!")
+            alertDialog.setMessage("Wszystkie przedmioty zostały zeskanowane!")
+            alertDialog.setButton(
+                AlertDialog.BUTTON_NEUTRAL, "OK"
+            ) { dialog, _ -> dialog.dismiss()
+                val updateStockTask = UpdateStock(DataHolder.selectedStock.Stock_ID, DataHolder.myUser.UserLogin, 1)
+                updateStockTask.execute().get()
+                startActivity(intent)
+                dialog.dismiss()
+
+            }
+            alertDialog.show()
+
         }
 
     }
@@ -52,8 +77,19 @@ class RoomSelectActivity : AppCompatActivity() {
             val gson = GsonBuilder().create()
             val apiAnswer = receiveRoomItemsTask.answer
             DataHolder.tempItems = gson.fromJson<ArrayList<Item>>(apiAnswer, object : TypeToken<ArrayList<Item>>(){}.type)
-            val intent = Intent(this, InsideRoomActivity::class.java)
-            startActivity(intent)
+            if (DataHolder.tempItems.isEmpty()){
+                val alertDialog =
+                    AlertDialog.Builder(this@RoomSelectActivity).create()
+                alertDialog.setTitle("Uwaga!")
+                alertDialog.setMessage("Wszystkie przedmioty w tym pomieszczeniu zostały zinwentaryzowane, wybierz inne pomieszczenie.")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEUTRAL, "OK"
+                ) { dialog, _ -> dialog.dismiss() }
+                alertDialog.show()
+            }else {
+                val intent = Intent(this, InsideRoomActivity::class.java)
+                startActivity(intent)
+            }
         }else{
             val alertDialog =
                 AlertDialog.Builder(this@RoomSelectActivity).create()
@@ -71,9 +107,7 @@ class RoomSelectActivity : AppCompatActivity() {
     }
 
     public fun getRoomQrCode(v: Room): String{
-        /*
-        Tutaj powinien znajdować się kod odpowiadający za odczytanie kodu QR z bloba.
-         */
+
         return "test"
     }
 
@@ -99,3 +133,15 @@ class GetRoomItems(Stock_ID: Int, Room_ID: Int) : AsyncTask<Void, Void, String>(
         return answer
     }
 }
+
+class UpdateStock(Stock_ID: Int, User: String, Is_Ended: Int) : AsyncTask<Void, Void, String>() {
+    private val req = EndPoints.URL_UPDATE_STOCK + Stock_ID.toString() + "&User=" + User + "&Is_Ended=" + Is_Ended.toString()
+    lateinit var answer : String
+
+    override fun doInBackground(vararg params: Void?): String? {
+        answer = URL(req).readText()
+        return answer
+    }
+}
+
+

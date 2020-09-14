@@ -8,6 +8,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.Serializable
 import java.net.URL
 
@@ -24,6 +26,13 @@ class MainActivity : AppCompatActivity() {
         val textPassword = findViewById<EditText>(R.id.textPassword)
         var userInfo : User
         val gson = Gson()
+
+        val receiveLocationsTask = GetLocations()
+        receiveLocationsTask.execute().get()
+        DataHolder.myLocations = gson.fromJson<ArrayList<Location>>(receiveLocationsTask.answer, object :
+            TypeToken<ArrayList<Location>>(){}.type)
+
+
         buttonLogin.setOnClickListener {
             val loginTask = GetUserData(textLogin.text.toString())
             loginTask.execute().get()
@@ -68,6 +77,16 @@ class MainActivity : AppCompatActivity() {
 
 class GetUserData(login : String) : AsyncTask<Void, Void, String>() {
     private val req = EndPoints.URL_GET_USER + login
+    lateinit var answer : String
+
+    override fun doInBackground(vararg params: Void?): String? {
+        answer = URL(req).readText()
+        return answer
+    }
+}
+
+class GetLocations() : AsyncTask<Void, Void, String>() {
+    private val req = EndPoints.URL_GET_LOCATIONS
     lateinit var answer : String
 
     override fun doInBackground(vararg params: Void?): String? {

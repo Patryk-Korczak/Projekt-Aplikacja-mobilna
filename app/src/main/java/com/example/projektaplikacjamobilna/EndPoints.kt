@@ -7,5 +7,8 @@ object EndPoints {
     const val URL_GET_ITEMS = URL_ROOT + "getItems&Stock_ID="
     const val URL_GET_ROOMS = URL_ROOT + "getRooms&Location_ID="
     const val URL_GET_ROOM_ITEMS = URL_ROOT + "getRoomItems&Stock_ID="
+    const val URL_UPDATE_ITEM = URL_ROOT + "updateItem&Row_ID="
+    const val URL_UPDATE_STOCK = URL_ROOT + "updateStock&Stock_ID="
+    const val URL_GET_LOCATIONS = URL_ROOT + "getLocations"
 
 }

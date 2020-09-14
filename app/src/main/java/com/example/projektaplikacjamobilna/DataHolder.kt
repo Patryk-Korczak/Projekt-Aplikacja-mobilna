@@ -7,8 +7,8 @@ object DataHolder{
     lateinit var selectedStock: Stock
     lateinit var myRooms: ArrayList<Room>
     lateinit var myLocations: ArrayList<Location>
-    lateinit var finalItems: ArrayList<Item>
     lateinit var selectedRoom: Room
     lateinit var tempItems: ArrayList<Item>
     var currentID = 0
+    var itemsChecked = 0
 }
