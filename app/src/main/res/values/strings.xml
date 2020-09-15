@@ -13,4 +13,13 @@
     <string name="lokalizacja">LOKALIZACJA</string>
     <string name="nazwa_przedmiotu">NAZWA PRZEDMIOTU</string>
     <string name="zdj_cie_przedmiotu">zdjęcie przedmiotu</string>
+    <string name="textview">TextView</string>
+    <string name="skanuj_kod">Skanuj Kod</string>
+    <string name="notatka">Notatka</string>
+    <string name="nast_pny">Następny</string>
+    <string name="podaj_ilo">Podaj Ilość</string>
+    <string name="brak">Brak</string>
+    <string name="item_image">item image</string>
+    <string name="post_p_inwentaryzacji">Postęp inwentaryzacji</string>
+    <string name="wybierz_pomieszcznie_do_przeprowadzenia_inwentaryzacji">Wybierz pomieszcznie do przeprowadzenia inwentaryzacji</string>
 </resources>

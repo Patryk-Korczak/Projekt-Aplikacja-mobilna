@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Base64
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.GsonBuilder
@@ -24,6 +25,7 @@ class RoomSelectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_select)
+        supportActionBar?.hide()
 
         val receiveRoomsTask = GetRooms(DataHolder.selectedStock.Location_ID)
         receiveRoomsTask.execute().get()
@@ -48,10 +50,17 @@ class RoomSelectActivity : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
 
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.max = DataHolder.myItems.size
+        progressBar.progress = DataHolder.itemsChecked
+
+
     }
 
     override fun onResume() {
         super.onResume()
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.progress = DataHolder.itemsChecked
         val intent = Intent(this, MainScreen::class.java)
         if(DataHolder.itemsChecked == DataHolder.myItems.size){
             val alertDialog =
